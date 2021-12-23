@@ -16,9 +16,17 @@
   },
   "dependencies": {
     "@apideck/components": "^0.6.11",
+    "@erc725/erc725.js": "^0.8.0",
+    "@headlessui/react": "^1.4.2",
+    "@lukso/lsp-factory.js": "^1.1.5",
+    "@lukso/universalprofile-smart-contracts": "^0.4.1",
     "next": "11.1.3",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-blockies": "^1.4.1",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "use-clipboard-copy": "^0.2.0",
+    "web3": "^1.6.1"
   },
   "devDependencies": {
     "@tailwindcss/ui": "^0.7.2",
@@ -28,6 +36,7 @@
     "@types/jest": "^27.0.1",
     "@types/node": "^16.9.1",
     "@types/react": "^17.0.21",
+    "@types/react-blockies": "^1.4.1",
     "@types/react-dom": "^17.0.9",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
