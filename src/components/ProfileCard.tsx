@@ -1,7 +1,6 @@
-import { getBackgroundImage, getProfileImage } from 'utils/lukso'
-
 import classNames from 'classnames'
 import { getIcon } from './ProfileLinks'
+import { getImageUrl } from 'utils/lukso'
 
 const ProfileCard = ({ profile }: any) => {
   return (
@@ -17,7 +16,7 @@ const ProfileCard = ({ profile }: any) => {
         {profile.backgroundImage ? (
           <img
             className="object-cover w-full h-32 lg:h-48"
-            src={getBackgroundImage(profile)}
+            src={getImageUrl(profile.backgroundImage)}
             alt={profile.name}
           />
         ) : null}
@@ -29,7 +28,7 @@ const ProfileCard = ({ profile }: any) => {
         >
           <img
             className="w-24 h-24 mx-auto rounded-full lg:w-28 lg:h-28 ring-4 ring-white"
-            src={getProfileImage(profile)}
+            src={getImageUrl(profile.profileImage)}
             alt={profile.name}
           />
         </div>
