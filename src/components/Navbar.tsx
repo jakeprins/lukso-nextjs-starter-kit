@@ -43,6 +43,15 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
                     Fetch profile
                   </a>
                 </Link>
+                <Link href="/create">
+                  <a
+                    className={`px-3 py-2 mr-4 text-sm font-semibold text-gray-700 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                      pathname === '/create' && 'text-primary-700 bg-cool-gray-100'
+                    }`}
+                  >
+                    Create profile
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -92,6 +101,24 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
                 }`}
               >
                 Homepage
+              </a>
+            </Link>
+            <Link href="/fetch">
+              <a
+                className={`block px-3 py-2 text-base font-semibold text-gray-900 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                  pathname === '/fetch' && 'text-primary-700 bg-cool-gray-100'
+                }`}
+              >
+                Fetch profile
+              </a>
+            </Link>
+            <Link href="/create">
+              <a
+                className={`block px-3 py-2 text-base font-semibold text-gray-900 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                  pathname === '/create' && 'text-primary-700 bg-cool-gray-100'
+                }`}
+              >
+                Create profile
               </a>
             </Link>
           </div>
