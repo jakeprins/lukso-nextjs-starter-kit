@@ -1,4 +1,4 @@
-import { CHAIN_ID, RPC_URL } from 'constants/web3'
+import { CHAIN_ID, RPC_URL } from '../../constants/lukso'
 import { LSPFactory, ProfileDataBeforeUpload } from '@lukso/lsp-factory.js'
 
 export const deployUniversalProfile = async (
@@ -15,5 +15,5 @@ export const deployUniversalProfile = async (
     lsp3Profile: profile as ProfileDataBeforeUpload
   })
 
-  return deployedContracts.ERC725Account.address
+  return deployedContracts?.ERC725Account?.address
 }

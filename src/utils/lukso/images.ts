@@ -1,4 +1,4 @@
-import { IPFS_URL } from 'constants/web3'
+import { IPFS_URL } from 'constants/lukso'
 import { LSP3ProfileImage } from '@lukso/lsp-factory.js'
 import { UniversalProfile } from 'types/UniversalProfile'
 

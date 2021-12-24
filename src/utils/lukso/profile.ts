@@ -1,7 +1,7 @@
 import KeyManager from '@lukso/universalprofile-smart-contracts/artifacts/LSP6KeyManager.json'
 import { LSP3UniversalProfile } from '@lukso/lsp-factory.js'
 import UP from '@lukso/universalprofile-smart-contracts/artifacts/UniversalProfile.json'
-import { getInstance } from '.'
+import { getInstance } from './erc725'
 
 export const fetchUniversalProfile = async (contractAddress: string): Promise<any> => {
   const erc725 = getInstance(contractAddress)

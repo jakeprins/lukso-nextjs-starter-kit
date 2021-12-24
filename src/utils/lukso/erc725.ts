@@ -1,6 +1,6 @@
 import { ERC725, ERC725JSONSchema } from '@erc725/erc725.js'
 
-import { RPC_URL } from 'constants/web3'
+import { RPC_URL } from 'constants/lukso'
 import Web3 from 'web3'
 
 const provider = new Web3.providers.HttpProvider(RPC_URL)

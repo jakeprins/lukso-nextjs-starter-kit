@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 export const Navbar = ({ children }: { children?: ReactNode }) => {
   const [navbarOpen, setNavbarOpen] = useState(false)
-  const router = useRouter()
+  const { pathname } = useRouter()
   const navbarNode = useRef() as RefObject<HTMLDivElement>
   const hamburgerNode = useRef() as RefObject<HTMLDivElement>
 
@@ -28,10 +28,19 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
                 <Link href="/">
                   <a
                     className={`px-3 py-2 mr-4 text-sm font-semibold text-gray-900 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
-                      router?.pathname === '/' && 'text-primary-700 bg-cool-gray-100'
+                      pathname === '/' && 'text-primary-700 bg-cool-gray-100'
                     }`}
                   >
                     Home
+                  </a>
+                </Link>
+                <Link href="/fetch">
+                  <a
+                    className={`px-3 py-2 mr-4 text-sm font-semibold text-gray-700 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                      pathname === '/fetch' && 'text-primary-700 bg-cool-gray-100'
+                    }`}
+                  >
+                    Fetch profile
                   </a>
                 </Link>
               </div>
@@ -79,7 +88,7 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
             <Link href="/">
               <a
                 className={`block px-3 py-2 text-base font-semibold text-gray-900 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
-                  router?.pathname === '/' && 'text-primary-700 bg-cool-gray-100'
+                  pathname === '/' && 'text-primary-700 bg-cool-gray-100'
                 }`}
               >
                 Homepage
