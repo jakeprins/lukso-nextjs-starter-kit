@@ -52,6 +52,15 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
                     Create profile
                   </a>
                 </Link>
+                <Link href="/update">
+                  <a
+                    className={`px-3 py-2 mr-4 text-sm font-semibold text-gray-700 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                      pathname === '/update' && 'text-primary-700 bg-cool-gray-100'
+                    }`}
+                  >
+                    Update profile
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -119,6 +128,15 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
                 }`}
               >
                 Create profile
+              </a>
+            </Link>
+            <Link href="/update">
+              <a
+                className={`block px-3 py-2 text-base font-semibold text-gray-900 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                  pathname === '/update' && 'text-primary-700 bg-cool-gray-100'
+                }`}
+              >
+                Update profile
               </a>
             </Link>
           </div>

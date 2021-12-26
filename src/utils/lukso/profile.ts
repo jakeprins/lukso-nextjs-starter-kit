@@ -1,6 +1,8 @@
+import { AbiItem } from 'web3-utils'
 import KeyManager from '@lukso/universalprofile-smart-contracts/artifacts/LSP6KeyManager.json'
 import { LSP3UniversalProfile } from '@lukso/lsp-factory.js'
 import UP from '@lukso/universalprofile-smart-contracts/artifacts/UniversalProfile.json'
+import Web3 from 'web3'
 import { getInstance } from './erc725'
 
 export const fetchUniversalProfile = async (contractAddress: string): Promise<any> => {
@@ -12,10 +14,11 @@ export const fetchUniversalProfile = async (contractAddress: string): Promise<an
 
 const uploadMetadataToIPFS = async (metadata: any) => {
   const uploadResult = await LSP3UniversalProfile.uploadProfileData(metadata)
+
   return uploadResult.url
 }
 
-const createContractsInstance = async (web3: any, profileAddress: string) => {
+export const createContractsInstance = async (profileAddress: string, web3: any) => {
   const profileContract = new web3.eth.Contract(UP.abi, profileAddress)
 
   const keyManagerAddress = await profileContract.methods.owner().call()
@@ -24,11 +27,7 @@ const createContractsInstance = async (web3: any, profileAddress: string) => {
   return { profileContract, keyManagerContract }
 }
 
-export const updateUniversalProfile = async (
-  web3: any,
-  profile: any,
-  account: { address: string; privateKey: string }
-) => {
+export const updateUniversalProfile = async (profile: any, accountAddress: string, web3: any) => {
   const profileMetadataIPFSUrl = await uploadMetadataToIPFS(profile)
   const erc725 = getInstance(profile.address)
   const encodedData = erc725.encodeData({
@@ -39,8 +38,8 @@ export const updateUniversalProfile = async (
     }
   })
   const { profileContract, keyManagerContract } = await createContractsInstance(
-    web3,
-    profile.address
+    profile.address,
+    web3
   )
   const abiPayload = await profileContract.methods
     .setData([encodedData.LSP3Profile.key], [encodedData.LSP3Profile.value])
@@ -48,7 +47,162 @@ export const updateUniversalProfile = async (
 
   const result = await keyManagerContract.methods
     .execute(abiPayload)
-    .send({ from: account.address, gasLimit: 3_000_000 })
+    .send({ from: accountAddress, gasLimit: 3_000_000 })
 
   return result
+}
+
+/**
+ * For contracts deployed with version bellow: 0.1.3
+ * @lukso/universalprofile-smart-contracts
+ */
+export const getData = async (address: string, keys: string[], web3: Web3) => {
+  const Contract = new web3.eth.Contract(
+    [
+      {
+        stateMutability: 'view',
+        type: 'function',
+        inputs: [
+          {
+            internalType: 'bytes32[]',
+            name: '_keys',
+            type: 'bytes32[]'
+          }
+        ],
+        name: 'getData',
+        outputs: [
+          {
+            internalType: 'bytes[]',
+            name: 'values',
+            type: 'bytes[]'
+          }
+        ]
+      }
+    ],
+    address
+  )
+
+  let data: string[] = []
+  try {
+    data = await Contract.methods.getData(keys).call()
+  } catch (err: any) {
+    console.log(err.message)
+  }
+
+  return data
+}
+
+const getDataMultiple = async (address: string, keys: string[], web3: Web3) => {
+  const abi: AbiItem[] = [
+    {
+      type: 'function',
+      stateMutability: 'view',
+      outputs: [
+        {
+          type: 'bytes[]',
+          name: '',
+          internalType: 'bytes[]'
+        }
+      ],
+      name: 'getDataMultiple',
+      inputs: [
+        {
+          type: 'bytes32[]',
+          name: '_keys',
+          internalType: 'bytes32[]'
+        }
+      ]
+    }
+  ]
+  const Contract = new web3.eth.Contract(abi, address)
+  let dataMultiple: string[] = []
+  try {
+    dataMultiple = await Contract.methods.getDataMultiple(keys).call()
+  } catch (err: any) {
+    console.log(err.message)
+    console.log('getDataMultiple not working, fetching with getData')
+    dataMultiple = await Promise.all(keys.map((key) => getDataLegacy(address, web3, key)))
+  }
+
+  return dataMultiple
+}
+
+/**
+ * For contracts deployed with version bellow: 0.1.3
+ * @lukso/universalprofile-smart-contracts
+ */
+const getDataLegacy = async (address: string, web3: Web3, key: string) => {
+  const abi: AbiItem[] = [
+    {
+      type: 'function',
+      stateMutability: 'view',
+      outputs: [
+        {
+          type: 'bytes',
+          name: '_value',
+          internalType: 'bytes'
+        }
+      ],
+      name: 'getData',
+      inputs: [
+        {
+          type: 'bytes32',
+          name: '_key',
+          internalType: 'bytes32'
+        }
+      ]
+    }
+  ]
+  const Contract = new web3.eth.Contract(abi, address)
+  let data
+  try {
+    data = await Contract.methods.getData(key).call()
+  } catch (err: any) {
+    console.log(err.message)
+  }
+
+  return data
+}
+
+const getAllDataKeys = async (address: string, web3: Web3): Promise<string[]> => {
+  const abi: AbiItem[] = [
+    {
+      type: 'function',
+      stateMutability: 'view',
+      outputs: [
+        {
+          type: 'bytes32[]',
+          name: '',
+          internalType: 'bytes32[]'
+        }
+      ],
+      name: 'allDataKeys',
+      inputs: []
+    }
+  ]
+  const Contract = new web3.eth.Contract(abi, address)
+  let allDataKeys = []
+  try {
+    allDataKeys = await Contract.methods.allDataKeys().call()
+  } catch (err: any) {
+    console.log(err.message)
+  }
+
+  return allDataKeys
+}
+
+export const hasPermissionToUpdate = async (
+  contractAddress: string,
+  accountAddress: string,
+  web3: Web3
+) => {
+  const getKeys = await getAllDataKeys(contractAddress, web3)
+  const permissionKeyPrefix = '0x4b80742d0000000082ac0000'
+  const permissionKeys = getKeys.filter((key) => key.indexOf(permissionKeyPrefix) !== -1)
+  const addressesWithPermissions = permissionKeys.map((key) =>
+    key.replace(permissionKeyPrefix, '0x')
+  )
+  const hasPermission = addressesWithPermissions.includes(accountAddress.toLowerCase())
+
+  return hasPermission
 }

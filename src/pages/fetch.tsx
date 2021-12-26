@@ -1,18 +1,19 @@
-import Navbar from 'components/Navbar'
-import { NextPage } from 'next'
-import Layout from '../components/Layout'
 import { Button, TextInput, useToast } from '@apideck/components'
 
-import { fetchUniversalProfile } from 'utils/lukso'
-import { useState } from 'react'
+import Layout from '../components/Layout'
+import Navbar from 'components/Navbar'
+import { NextPage } from 'next'
 import ProfileCard from 'components/ProfileCard'
-import { shortenAddress } from 'utils/web3'
 import { UniversalProfile } from '@lukso/lsp-factory.js'
+import { fetchUniversalProfile } from 'utils/lukso'
+import { shortenAddress } from 'utils/web3'
+import { useState } from 'react'
 
 const FetchProfilePage: NextPage = () => {
   const [contractAddress, setContractAddress] = useState<string>('')
   const [profile, setProfile] = useState<UniversalProfile>()
   const { addToast } = useToast()
+
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchProfile = async () => {
@@ -53,7 +54,6 @@ const FetchProfilePage: NextPage = () => {
               </p>
             </div>
           </div>
-
           <div className="my-3">
             <TextInput
               name="contract_address"
