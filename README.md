@@ -1,8 +1,8 @@
-# Next Starter Kit
+# Lukso Nextjs Starter Kit
 
 <img alt="Logo" align="right" src="./public/img/logo.png" width="10%" />
 
-A boilerplate for creating new projects with Next.js, TypeScript, Tailwind CSS, ESLint, Prettier, Jest, and React Testing Library. Bootstrapped with [create-next-app](https://nextjs.org/docs/api-reference/create-next-app).
+A boilerplate for creating new projects with Lukso, Next.js, TypeScript, Tailwind CSS, ESLint, Prettier, Jest, and React Testing Library. Bootstrapped with [create-next-app](https://nextjs.org/docs/api-reference/create-next-app).
 <br>
 <br>
 
@@ -11,37 +11,29 @@ A boilerplate for creating new projects with Next.js, TypeScript, Tailwind CSS, 
 Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the starter kit:
 
 ```bash
-npx create-next-app --example https://github.com/apideck-io/next-starter-kit
+npx create-next-app --example https://github.com/jakeprins/lukso-nextjs-starter-kit
 # or
-yarn create next-app --example https://github.com/apideck-io/next-starter-kit
+yarn create next-app --example https://github.com/jakeprins/lukso-nextjs-starter-kit
 ```
 
 It will create a new directory inside the current folder.<br>
 Inside that directory, it will generate the initial project structure and install the transitive dependencies:
 
 ```
- my-app
+ my-lukso-app
  ┣ __tests__
  ┃ ┣ components
- ┃ ┃ ┣ __snapshots__
- ┃ ┃ ┗ layout.test.tsx
  ┃ ┗ pages
- ┃ ┃ ┣ __snapshots__
- ┃ ┃ ┗ index.test.tsx
  ┣ public
  ┃ ┣ fonts
- ┃ ┃ ┣ basier-circle
  ┃ ┣ img
- ┃ ┃ ┣ logo.png
- ┃ ┃ ┗ screenshot.jpg
  ┣ src
  ┃ ┣ components
- ┃ ┃ ┗ Layout.tsx
  ┃ ┣ pages
- ┃ ┃ ┣ _app.tsx
- ┃ ┃ ┗ index.tsx
  ┃ ┗ styles
- ┃ ┃ ┗ tailwind.css
+ ┃ ┗ utils
+ ┃ ┃ ┣ lukso
+ ┃ ┃ ┗ web3
  ┣ .babelrc
  ┣ .eslintrc.json
  ┣ .gitignore
@@ -59,7 +51,7 @@ Inside that directory, it will generate the initial project structure and instal
 Once the installation is done, you can open your project folder:
 
 ```sh
-cd next-starter-kit
+cd lukso-nextjs-starter-kit
 ```
 
 Inside the newly created project, you can run some commands:

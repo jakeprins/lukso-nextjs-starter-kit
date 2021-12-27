@@ -12,6 +12,13 @@ export const fetchUniversalProfile = async (contractAddress: string): Promise<an
   return profile.LSP3Profile
 }
 
+export const fetchERC725Data = async (contractAddress: string): Promise<any> => {
+  const erc725 = getInstance(contractAddress)
+  const response = await erc725.fetchData()
+  console.log(response)
+  return response
+}
+
 const uploadMetadataToIPFS = async (metadata: any) => {
   const uploadResult = await LSP3UniversalProfile.uploadProfileData(metadata)
 
