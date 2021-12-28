@@ -17,5 +17,5 @@ module.exports = config({
     }
   },
   variants: {},
-  plugins: [require('@tailwindcss/ui')]
+  plugins: [require('@tailwindcss/ui'), require('@tailwindcss/line-clamp')]
 })

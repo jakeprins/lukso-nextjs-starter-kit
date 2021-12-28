@@ -14,8 +14,13 @@ export const fetchUniversalProfile = async (contractAddress: string): Promise<an
 
 export const fetchERC725Data = async (contractAddress: string): Promise<any> => {
   const erc725 = getInstance(contractAddress)
-  const response = await erc725.fetchData()
-  console.log(response)
+  let response
+  try {
+    response = await erc725.fetchData(['LSP3Profile', 'LSP1UniversalReceiverDelegate'])
+  } catch (e) {
+    console.log(e)
+  }
+
   return response
 }
 

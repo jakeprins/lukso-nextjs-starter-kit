@@ -6,6 +6,7 @@ import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
 import ProfileCard from 'components/ProfileCard'
 import { UniversalProfile } from '@lukso/lsp-factory.js'
+import classNames from 'classnames'
 import { fetchERC725Data } from 'utils/lukso/profile'
 import { getAssetsFromProfile } from 'utils/lukso/assets'
 import { getImageUrl } from 'utils/lukso'
@@ -133,14 +134,20 @@ const FetchProfilePage: NextPage = () => {
             </div>
           </div>
         )}
-        <div className="grid max-w-lg gap-6 mx-auto mt-12 mb-12 md:grid-cols-2 md:max-w-3xl lg:gap-8 2xl:grid-cols-4 2xl:gap-4 2xl:max-w-7xl">
+        <div
+          className={classNames('grid gap-6 mx-auto mt-12 mb-12 max-w-sm', {
+            'md:grid-cols-2': assets?.length > 1,
+            'lg:gap-8 xl:grid-cols-3 md:max-w-4xl': assets?.length > 2,
+            '2xl:grid-cols-4 2xl:gap-4 2xl:max-w-7xl': assets?.length > 3
+          })}
+        >
           {assets?.map((asset: any, i: number) => {
             return (
               <div className="rounded-lg card" key={i}>
                 <div className="flex flex-col overflow-hidden rounded-lg shadow-lg">
                   <div className="flex-shrink-0 h-48 overflow-hidden">
                     <img
-                      src={getImageUrl(asset.images[0], 'medium')}
+                      src={getImageUrl(asset.images[0])}
                       alt={asset.description}
                       className="object-cover w-full"
                     />
@@ -148,7 +155,10 @@ const FetchProfilePage: NextPage = () => {
                   <div className="flex flex-col justify-between flex-1 p-6 bg-white 2xl:p-5">
                     <div className="flex-1">
                       <div className="mt-1.5">
-                        <p className="text-lg font-medium text-gray-800 truncate">
+                        <p className="text-xl font-semibold text-gray-900 line-clamp-2">
+                          {asset.tokenName}
+                        </p>
+                        <p className="mt-2 text-base text-gray-600 line-clamp-4">
                           {asset.description}
                         </p>
                       </div>

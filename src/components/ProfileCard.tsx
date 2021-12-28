@@ -3,17 +3,19 @@ import { getIcon } from './ProfileLinks'
 import { getImageUrl } from 'utils/lukso'
 
 const ProfileCard = ({ profile }: any) => {
+  const hasBgImage = profile.backgroundImage?.length
+
   return (
     <div className="flex items-center justify-center w-full h-full">
       <div
         className={classNames(`max-w-sm w-full mx-3 sm:mx-auto  bg-white rounded-md shadow-xl`, {
-          'overflow-hidden': profile.backgroundImage,
-          'mt-8': !profile.backgroundImage
+          'overflow-hidden': hasBgImage,
+          'mt-8': !hasBgImage
         })}
         style={{ minWidth: 320 }}
         id="container"
       >
-        {profile.backgroundImage ? (
+        {hasBgImage ? (
           <img
             className="object-cover w-full h-32 lg:h-48"
             src={getImageUrl(profile.backgroundImage)}
@@ -22,8 +24,8 @@ const ProfileCard = ({ profile }: any) => {
         ) : null}
         <div
           className={classNames(`w-full sm:flex sm:items-center`, {
-            '-mt-16': profile.backgroundImage,
-            '-mt-8': !profile.backgroundImage
+            '-mt-16': hasBgImage,
+            '-mt-8': !hasBgImage
           })}
         >
           <img
