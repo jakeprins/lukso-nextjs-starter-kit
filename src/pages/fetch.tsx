@@ -16,7 +16,7 @@ const FetchProfilePage: NextPage = () => {
   const [contractAddress, setContractAddress] = useState<string>('')
   const [profile, setProfile] = useState<UniversalProfile>()
   const [assets, setAssets] = useState<any>()
-  const [receiver, setReceiver] = useState<string>()
+  const [URDAddress, setURDAddress] = useState<string>()
   const { addToast } = useToast()
   const { web3Info } = useWeb3()
 
@@ -28,7 +28,7 @@ const FetchProfilePage: NextPage = () => {
     try {
       const response = await fetchERC725Data(contractAddress)
       setProfile({ ...response.LSP3Profile.LSP3Profile, address: contractAddress })
-      setReceiver(response.LSP1UniversalReceiverDelegate)
+      setURDAddress(response.LSP1UniversalReceiverDelegate)
       addToast({
         title: 'Universal Profile Found',
         description: 'Look at that beauty!',
@@ -48,10 +48,10 @@ const FetchProfilePage: NextPage = () => {
   }
 
   const fetchAssets = async () => {
-    if (!receiver) return
+    if (!URDAddress) return
     setIsLoadingAssets(true)
     try {
-      const response = await getAssetsFromProfile(receiver, web3Info)
+      const response = await getAssetsFromProfile(URDAddress, web3Info)
       setAssets(response)
       addToast({
         title: 'Succeeded to fetch assets',

@@ -6,8 +6,8 @@ import LSP8IdentifiableDigitalAsset from '@lukso/universalprofile-smart-contract
 import Web3 from 'web3'
 import { getInstance } from '.'
 
-export const getAssetsFromProfile = async (receiver: string, web3: Web3) => {
-  const tokenAddresses = await getTokenAddresses(receiver, web3)
+export const getAssetsFromProfile = async (URDAddress: string, web3: Web3) => {
+  const tokenAddresses = await getTokenAddresses(URDAddress, web3)
 
   let digitalAssets: any[] = []
   if (tokenAddresses?.length) {
@@ -38,7 +38,7 @@ const getMetaData = async (tokenAddresses: string[], web3: Web3) => {
   return assets
 }
 
-const getTokenAddresses = async (receiver: string, web3: Web3) => {
+const getTokenAddresses = async (URDAddress: string, web3: Web3) => {
   try {
     const abi = [
       {
@@ -55,7 +55,7 @@ const getTokenAddresses = async (receiver: string, web3: Web3) => {
         type: 'function'
       }
     ]
-    const addressStore = new web3.eth.Contract(abi, receiver)
+    const addressStore = new web3.eth.Contract(abi, URDAddress)
     const tokenAddresses = await addressStore.methods.getAllRawValues().call()
 
     return tokenAddresses

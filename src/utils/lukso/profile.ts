@@ -1,3 +1,4 @@
+import { ADDRESSES } from 'constants/lukso'
 import { AbiItem } from 'web3-utils'
 import KeyManager from '@lukso/universalprofile-smart-contracts/artifacts/LSP6KeyManager.json'
 import { LSP3UniversalProfile } from '@lukso/lsp-factory.js'
@@ -203,17 +204,18 @@ const getAllDataKeys = async (address: string, web3: Web3): Promise<string[]> =>
   return allDataKeys
 }
 
-export const hasPermissionToUpdate = async (
-  contractAddress: string,
-  accountAddress: string,
-  web3: Web3
-) => {
-  const getKeys = await getAllDataKeys(contractAddress, web3)
-  const permissionKeyPrefix = '0x4b80742d0000000082ac0000'
-  const permissionKeys = getKeys.filter((key) => key.indexOf(permissionKeyPrefix) !== -1)
-  const addressesWithPermissions = permissionKeys.map((key) =>
-    key.replace(permissionKeyPrefix, '0x')
-  )
+export const getAddressesWithPermissions = async (profileAddress: string, web3: Web3) => {
+  const getKeys = await getAllDataKeys(profileAddress, web3)
+  const permissionKey = ADDRESSES.PERMISSIONS
+  const permissionKeys = getKeys.filter((key) => key.indexOf(permissionKey) !== -1)
+  const addressesWithPermissions = permissionKeys.map((key) => key.replace(permissionKey, '0x'))
+  debugger
+
+  return addressesWithPermissions
+}
+
+export const hasPermission = async (profileAddress: string, accountAddress: string, web3: Web3) => {
+  const addressesWithPermissions = await getAddressesWithPermissions(profileAddress, web3)
   const hasPermission = addressesWithPermissions.includes(accountAddress.toLowerCase())
 
   return hasPermission

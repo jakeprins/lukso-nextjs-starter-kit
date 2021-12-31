@@ -1,4 +1,5 @@
 export { getInstance } from './erc725'
 export { deployUniversalProfile } from './lspFactory'
 export { getImageUrl } from './images'
-export { fetchUniversalProfile, updateUniversalProfile, hasPermissionToUpdate } from './profile'
+export { fetchUniversalProfile, updateUniversalProfile, hasPermission } from './profile'
+export { transferLXY } from './keyManager'

@@ -61,6 +61,24 @@ export const Navbar = ({ children }: { children?: ReactNode }) => {
                     Update profile
                   </a>
                 </Link>
+                <Link href="/transfer">
+                  <a
+                    className={`px-3 py-2 mr-4 text-sm font-semibold text-gray-700 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                      pathname === '/transfer' && 'text-primary-700 bg-cool-gray-100'
+                    }`}
+                  >
+                    Transfer LXY
+                  </a>
+                </Link>
+                <Link href="/permissions">
+                  <a
+                    className={`px-3 py-2 mr-4 text-sm font-semibold text-gray-700 rounded-md hover:text-primary-700 hover:bg-cool-gray-100 focus:outline-none focus:text-primary-700 focus:bg-cool-gray-100 ${
+                      pathname === '/permissions' && 'text-primary-700 bg-cool-gray-100'
+                    }`}
+                  >
+                    Permissions
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

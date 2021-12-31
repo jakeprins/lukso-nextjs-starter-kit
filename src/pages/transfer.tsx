@@ -1,35 +1,43 @@
 import { Button, TextArea, TextInput, useToast } from '@apideck/components'
-import { fetchUniversalProfile, hasPermission, updateUniversalProfile } from 'utils/lukso'
-import { shortenAddress, useWeb3 } from 'utils/web3'
+import {
+  fetchUniversalProfile,
+  hasPermission,
+  transferLXY,
+  updateUniversalProfile
+} from 'utils/lukso'
+import { getAccountBalance, shortenAddress, useWeb3 } from 'utils/web3'
 
 import Layout from '../components/Layout'
 import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
 import { UniversalProfile } from '@lukso/lsp-factory.js'
+import { fetchERC725Data } from 'utils/lukso/profile'
 import { useState } from 'react'
 
-const UpdateProfilePage: NextPage = () => {
+const TransferPage: NextPage = () => {
   const [contractAddress, setContractAddress] = useState<string>('')
   const [profile, setProfile] = useState<UniversalProfile>()
   const { addToast } = useToast()
-  const { web3Info, account, balance } = useWeb3()
+  const { web3Info, account } = useWeb3()
   const [isLoading, setIsLoading] = useState(false)
-  const [isUpdating, setIsUpdating] = useState(false)
-  const [name, setName] = useState<string>()
-  const [description, setDescription] = useState<string>()
+  const [isSending, setIsSending] = useState(false)
+  const [amount, setAmount] = useState<string>()
+  const [balance, setBalance] = useState<number>()
+  const [URDAddress, setURDAddress] = useState<string>()
+  const [recipient, setRecipient] = useState<string>()
 
   const fetchProfile = async () => {
     setIsLoading(true)
     try {
-      const profile = await fetchUniversalProfile(contractAddress)
       const hasPermissions = await hasPermission(contractAddress, account.address, web3Info)
+      const response = await fetchERC725Data(contractAddress)
+      setURDAddress(response.LSP1UniversalReceiverDelegate)
+      setProfile({ ...response.LSP3Profile.LSP3Profile, address: contractAddress })
 
-      if (hasPermissions) {
-        const data = profile.LSP3Profile
-        setProfile({ ...data, address: contractAddress })
-        setName(data.name)
-        setDescription(data.description)
-      } else {
+      const profileBalance = await getAccountBalance(web3Info, contractAddress)
+      setBalance(profileBalance)
+
+      if (!hasPermissions) {
         addToast({
           title: 'No permissions to control this profile',
           description: 'The current account does not have permissions to control this profile',
@@ -49,30 +57,28 @@ const UpdateProfilePage: NextPage = () => {
     }
   }
 
-  const updateProfile = async () => {
+  const transfer = async () => {
     if (balance === 0) {
       addToast({
-        title: 'You need some LXY to deploy a UP',
-        description:
-          'Make sure the controlling account has some LXYt to cover the transaction costs'
+        title: 'You need some LXY to cover the transaction costs',
+        description: 'Make sure the controlling account has some LXYt to cover gas fees'
       })
       return
     }
-    setIsUpdating(true)
+    setIsSending(true)
     try {
-      const updatedProfile = { ...profile, name, description }
-      const result = await updateUniversalProfile(updatedProfile, account.address, web3Info)
-      console.log(`https://blockscout.com/lukso/l14/tx/${result?.transactionHash}`)
-      setProfile(updatedProfile)
-      addToast({
-        title: 'Looking good!',
-        description: 'You Universal Profile has been updated on the Lukso blockchain.',
-        type: 'success',
-        autoClose: true
-      })
-      setIsUpdating(false)
+      const transaction = await transferLXY(
+        profile?.address,
+        account?.address,
+        recipient,
+        amount,
+        web3Info
+      )
+      console.log(transaction)
+      setIsSending(false)
     } catch (error: any) {
-      setIsUpdating(false)
+      console.error(error)
+      setIsSending(false)
       addToast({
         title: 'Something went wrong',
         description:
@@ -133,37 +139,41 @@ const UpdateProfilePage: NextPage = () => {
               </div>
               <div className="mt-4">
                 <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
-                  Name
+                  Recipient
                 </label>
                 <TextInput
                   name="name"
                   className="mt-1"
-                  onChange={(e) => setName(e.currentTarget.value)}
-                  value={name}
+                  placeholder="UP Address"
+                  onChange={(e) => setRecipient(e.currentTarget.value)}
+                  value={recipient}
                 />
               </div>
               <div className="mt-4">
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium leading-5 text-gray-700"
-                >
-                  Description
+                <div className="block text-sm font-medium leading-5 text-gray-700">
+                  Balance: {balance} LXY
+                </div>
+              </div>
+              <div className="mt-4">
+                <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
+                  Amount
                 </label>
-                <TextArea
+                <TextInput
+                  name="name"
                   className="mt-1"
-                  name="description"
-                  onChange={(e) => setDescription(e.currentTarget.value)}
-                  value={description}
+                  onChange={(e) => setAmount(e.currentTarget.value)}
+                  value={amount}
+                  placeholder="0.1"
                 />
               </div>
               <div className="mt-5">
                 <Button
                   type="button"
                   className="inline-flex justify-center w-full px-4 py-2 sm:col-start-2 sm:text-sm"
-                  onClick={updateProfile}
-                  isLoading={isUpdating}
+                  onClick={transfer}
+                  isLoading={isSending}
                 >
-                  Update profile
+                  Transfer
                 </Button>
               </div>
             </div>
@@ -174,4 +184,4 @@ const UpdateProfilePage: NextPage = () => {
   )
 }
 
-export default UpdateProfilePage
+export default TransferPage
