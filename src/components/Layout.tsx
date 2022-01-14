@@ -1,5 +1,6 @@
-import Head from 'next/head'
 import React, { ReactNode } from 'react'
+
+import Head from 'next/head'
 
 type Props = {
   children: ReactNode
@@ -10,8 +11,8 @@ type Props = {
 
 const Layout = ({
   children,
-  title = 'Apideck - Next Starter Kit',
-  description = 'A Next.js starter kit with TypeScript, Tailwind, Jest, Prettier, and Eslint',
+  title = 'Lukso Next.js Starter Kit',
+  description = 'A Next.js starter kit with Lukso, TypeScript, Tailwind, Jest, Prettier, and Eslint',
   favicon = '/img/logo.png'
 }: Props) => (
   <div className="font-basier-circle">

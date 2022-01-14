@@ -119,6 +119,9 @@ Before each push to the repository we run `jest` to check if all tests are passi
 
 To learn more, take a look at the following resources:
 
+- [Lukso](https://www.lukso.network/) - learn about Lukso, the blockchain powering Universal Profiles
+- [Lukso Docs](https://docs.lukso.tech/tools/getting-started/) - Here you will find tutorials and tools that help you building on LUKSO
+- [Universal Profiles](https://universalprofile.cloud/) - Official site
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial
 - [TypeScript](https://www.typescriptlang.org/) - learn about TypeScript

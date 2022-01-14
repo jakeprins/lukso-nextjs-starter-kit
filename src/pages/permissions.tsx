@@ -1,12 +1,7 @@
-import { Button, TextArea, TextInput, useToast } from '@apideck/components'
+import { Button, TextInput, useToast } from '@apideck/components'
 import { fetchERC725Data, getAddressesWithPermissions } from 'utils/lukso/profile'
-import {
-  fetchUniversalProfile,
-  hasPermission,
-  transferLXY,
-  updateUniversalProfile
-} from 'utils/lukso'
-import { getAccountBalance, shortenAddress, useWeb3 } from 'utils/web3'
+
+import { shortenAddress, useWeb3 } from 'utils/web3'
 
 import Layout from '../components/Layout'
 import Navbar from 'components/Navbar'
@@ -23,7 +18,6 @@ const TransferPage: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
   const [newAddress, setNewAddress] = useState<string>()
-  const [URDAddress, setURDAddress] = useState<string>()
   const [permissions, setPermissions] = useState<string[]>()
 
   const fetchProfile = async () => {
@@ -36,7 +30,6 @@ const TransferPage: NextPage = () => {
 
       if (hasPermission) {
         const response = await fetchERC725Data(contractAddress)
-        setURDAddress(response.LSP1UniversalReceiverDelegate)
         setProfile({ ...response.LSP3Profile.LSP3Profile, address: contractAddress })
       } else {
         addToast({
@@ -62,15 +55,18 @@ const TransferPage: NextPage = () => {
     setIsUpdating(true)
     try {
       const transaction = await addToPermissionsArray(
-        profile?.address,
+        profile?.address as string,
         account.address,
-        newAddress,
+        newAddress as string,
         web3Info
       )
       console.log(transaction)
 
       // update permissions UI
-      const addressesWithPermissions = await getAddressesWithPermissions(profile?.address, web3Info)
+      const addressesWithPermissions = await getAddressesWithPermissions(
+        profile?.address as string,
+        web3Info
+      )
       setPermissions(addressesWithPermissions)
       setIsUpdating(false)
     } catch (error: any) {

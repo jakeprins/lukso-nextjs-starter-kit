@@ -7,7 +7,11 @@ export const getAccountBalance = async (web3: Web3, accountAddress: string) => {
 
 export const getAccount = async (web3: Web3) => {
   const password = process.env.NEXT_PUBLIC_WALLET_PASSWORD || ''
-  web3.eth.accounts.wallet.load(password)
+  try {
+    web3.eth.accounts.wallet.load(password)
+  } catch (e) {
+    console.error(e)
+  }
 
   // Load account from local storage
   if (web3.eth.accounts.wallet.length) {
@@ -21,9 +25,9 @@ export const getAccount = async (web3: Web3) => {
     console.log('Loaded account from existing wallet credentials')
   } else {
     // Create new account
-    // web3.eth.accounts.wallet.create(1)
-    // web3.eth.accounts.wallet.save(password)
-    // console.log('New account created.')
+    web3.eth.accounts.wallet.create(1)
+    web3.eth.accounts.wallet.save(password)
+    console.log('New account created.')
   }
 
   const wallet = web3.eth.accounts.wallet[0]
@@ -32,7 +36,7 @@ export const getAccount = async (web3: Web3) => {
   const balance = web3.utils.fromWei(await web3.eth?.getBalance(address), 'ether')
 
   console.log('Balance ', balance, 'LYXt')
-  console.log('Address', address)
+  console.log('address', address)
 
   return { address, privateKey }
 }

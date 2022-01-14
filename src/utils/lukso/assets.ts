@@ -1,6 +1,5 @@
-import { AbiItem } from 'web3-utils'
 import { ERC725JSONSchema } from '@erc725/erc725.js'
-import LSP4D from 'artifacts/LSP4D.json'
+import LSP4D from 'abis/LSP4D.json'
 import { LSP4schema } from 'schemas/LSP4Schema.js'
 import LSP8IdentifiableDigitalAsset from '@lukso/universalprofile-smart-contracts/artifacts/LSP8IdentifiableDigitalAsset.json'
 import Web3 from 'web3'
@@ -40,7 +39,7 @@ const getMetaData = async (tokenAddresses: string[], web3: Web3) => {
 
 const getTokenAddresses = async (URDAddress: string, web3: Web3) => {
   try {
-    const abi = [
+    const abi: any = [
       {
         inputs: [],
         name: 'getAllRawValues',
@@ -85,7 +84,7 @@ const getAssetMetaData = async (assetAddress: string, web3: Web3) => {
     const key = isLegacy ? schemaKey : [schemaKey]
 
     // Fetch the encoded contract data
-    const digitalAsset = new web3.eth.Contract(abi, assetAddress)
+    const digitalAsset = new web3.eth.Contract(abi as any, assetAddress)
     const encodedData = await digitalAsset.methods.getData(key).call()
     const encodedLSP4Data = isLegacy ? encodedData : encodedData[0]
 
@@ -107,7 +106,7 @@ const getAssetTokenName = async (assetAddress: string, web3: Web3) => {
     const key = isLegacy ? schemaKey : [schemaKey]
 
     // Fetch the encoded contract data
-    const digitalAsset = new web3.eth.Contract(abi, assetAddress)
+    const digitalAsset = new web3.eth.Contract(abi as any, assetAddress)
     const encodedData = await digitalAsset.methods.getData(key).call()
     const encodedLSP4Data = isLegacy ? encodedData : encodedData[0]
 
@@ -123,7 +122,7 @@ const getAssetTokenName = async (assetAddress: string, web3: Web3) => {
 const isERC725YLegacy = async (address: string, web3: Web3) => {
   try {
     // Create Instance of the contract which is to be queried
-    const abi: AbiItem = [
+    const abi: any = [
       {
         type: 'function',
         stateMutability: 'view',
@@ -153,38 +152,38 @@ const isERC725YLegacy = async (address: string, web3: Web3) => {
   }
 }
 
-const isERC725Y = async (address: string, web3: Web3) => {
-  try {
-    // Create Instance of the contract which is to be queried
-    const abi: AbiItem = [
-      {
-        type: 'function',
-        stateMutability: 'view',
-        outputs: [
-          {
-            type: 'bool',
-            name: '',
-            internalType: 'bool'
-          }
-        ],
-        name: 'supportsInterface',
-        inputs: [
-          {
-            type: 'bytes4',
-            name: 'interfaceId',
-            internalType: 'bytes4'
-          }
-        ]
-      }
-    ]
-    const assetContract = new web3.eth.Contract(abi, address)
-    const erc725Y = '0x5a988c0f'
-    const isERC725YLegacy = await assetContract.methods.supportsInterface(erc725Y).call()
-    return isERC725YLegacy
-  } catch (e) {
-    console.log(e)
-  }
-}
+// const isERC725Y = async (address: string, web3: Web3) => {
+//   try {
+//     // Create Instance of the contract which is to be queried
+//     const abi: AbiItem = [
+//       {
+//         type: 'function',
+//         stateMutability: 'view',
+//         outputs: [
+//           {
+//             type: 'bool',
+//             name: '',
+//             internalType: 'bool'
+//           }
+//         ],
+//         name: 'supportsInterface',
+//         inputs: [
+//           {
+//             type: 'bytes4',
+//             name: 'interfaceId',
+//             internalType: 'bytes4'
+//           }
+//         ]
+//       }
+//     ]
+//     const assetContract = new web3.eth.Contract(abi, address)
+//     const erc725Y = '0x5a988c0f'
+//     const isERC725YLegacy = await assetContract.methods.supportsInterface(erc725Y).call()
+//     return isERC725YLegacy
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }
 
 const decodeMetaData = async (encodedLSP4Data: any, assetAddress: string) => {
   try {

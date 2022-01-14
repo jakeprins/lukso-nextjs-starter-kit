@@ -1,29 +1,23 @@
-import { Button, TextArea, TextInput, useToast } from '@apideck/components'
-import {
-  fetchUniversalProfile,
-  hasPermission,
-  transferLXY,
-  updateUniversalProfile
-} from 'utils/lukso'
+import { Button, TextInput, useToast } from '@apideck/components'
+import { hasPermission, transferLXY } from 'utils/lukso'
 import { getAccountBalance, shortenAddress, useWeb3 } from 'utils/web3'
 
 import Layout from '../components/Layout'
 import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
-import { UniversalProfile } from '@lukso/lsp-factory.js'
+
 import { fetchERC725Data } from 'utils/lukso/profile'
 import { useState } from 'react'
 
 const TransferPage: NextPage = () => {
   const [contractAddress, setContractAddress] = useState<string>('')
-  const [profile, setProfile] = useState<UniversalProfile>()
+  const [profile, setProfile] = useState<any>()
   const { addToast } = useToast()
   const { web3Info, account } = useWeb3()
   const [isLoading, setIsLoading] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [amount, setAmount] = useState<string>()
   const [balance, setBalance] = useState<number>()
-  const [URDAddress, setURDAddress] = useState<string>()
   const [recipient, setRecipient] = useState<string>()
 
   const fetchProfile = async () => {
@@ -31,9 +25,7 @@ const TransferPage: NextPage = () => {
     try {
       const hasPermissions = await hasPermission(contractAddress, account.address, web3Info)
       const response = await fetchERC725Data(contractAddress)
-      setURDAddress(response.LSP1UniversalReceiverDelegate)
       setProfile({ ...response.LSP3Profile.LSP3Profile, address: contractAddress })
-
       const profileBalance = await getAccountBalance(web3Info, contractAddress)
       setBalance(profileBalance)
 
@@ -70,8 +62,8 @@ const TransferPage: NextPage = () => {
       const transaction = await transferLXY(
         profile?.address,
         account?.address,
-        recipient,
-        amount,
+        recipient as string,
+        amount as string,
         web3Info
       )
       console.log(transaction)

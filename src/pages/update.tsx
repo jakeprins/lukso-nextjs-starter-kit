@@ -5,12 +5,12 @@ import { shortenAddress, useWeb3 } from 'utils/web3'
 import Layout from '../components/Layout'
 import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
-import { UniversalProfile } from '@lukso/lsp-factory.js'
+
 import { useState } from 'react'
 
 const UpdateProfilePage: NextPage = () => {
   const [contractAddress, setContractAddress] = useState<string>('')
-  const [profile, setProfile] = useState<UniversalProfile>()
+  const [profile, setProfile] = useState<any>()
   const { addToast } = useToast()
   const { web3Info, account, balance } = useWeb3()
   const [isLoading, setIsLoading] = useState(false)

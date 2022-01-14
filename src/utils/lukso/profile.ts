@@ -65,10 +65,6 @@ export const updateUniversalProfile = async (profile: any, accountAddress: strin
   return result
 }
 
-/**
- * For contracts deployed with version bellow: 0.1.3
- * @lukso/universalprofile-smart-contracts
- */
 export const getData = async (address: string, keys: string[], web3: Web3) => {
   const Contract = new web3.eth.Contract(
     [
@@ -105,77 +101,73 @@ export const getData = async (address: string, keys: string[], web3: Web3) => {
   return data
 }
 
-const getDataMultiple = async (address: string, keys: string[], web3: Web3) => {
-  const abi: AbiItem[] = [
-    {
-      type: 'function',
-      stateMutability: 'view',
-      outputs: [
-        {
-          type: 'bytes[]',
-          name: '',
-          internalType: 'bytes[]'
-        }
-      ],
-      name: 'getDataMultiple',
-      inputs: [
-        {
-          type: 'bytes32[]',
-          name: '_keys',
-          internalType: 'bytes32[]'
-        }
-      ]
-    }
-  ]
-  const Contract = new web3.eth.Contract(abi, address)
-  let dataMultiple: string[] = []
-  try {
-    dataMultiple = await Contract.methods.getDataMultiple(keys).call()
-  } catch (err: any) {
-    console.log(err.message)
-    console.log('getDataMultiple not working, fetching with getData')
-    dataMultiple = await Promise.all(keys.map((key) => getDataLegacy(address, web3, key)))
-  }
+// const getDataMultiple = async (address: string, keys: string[], web3: Web3) => {
+//   const abi: AbiItem[] = [
+//     {
+//       type: 'function',
+//       stateMutability: 'view',
+//       outputs: [
+//         {
+//           type: 'bytes[]',
+//           name: '',
+//           internalType: 'bytes[]'
+//         }
+//       ],
+//       name: 'getDataMultiple',
+//       inputs: [
+//         {
+//           type: 'bytes32[]',
+//           name: '_keys',
+//           internalType: 'bytes32[]'
+//         }
+//       ]
+//     }
+//   ]
+//   const Contract = new web3.eth.Contract(abi, address)
+//   let dataMultiple: string[] = []
+//   try {
+//     dataMultiple = await Contract.methods.getDataMultiple(keys).call()
+//   } catch (err: any) {
+//     console.log(err.message)
+//     console.log('getDataMultiple not working, fetching with getData')
+//     dataMultiple = await Promise.all(keys.map((key) => getDataLegacy(address, web3, key)))
+//   }
 
-  return dataMultiple
-}
+//   return dataMultiple
+// }
 
-/**
- * For contracts deployed with version bellow: 0.1.3
- * @lukso/universalprofile-smart-contracts
- */
-const getDataLegacy = async (address: string, web3: Web3, key: string) => {
-  const abi: AbiItem[] = [
-    {
-      type: 'function',
-      stateMutability: 'view',
-      outputs: [
-        {
-          type: 'bytes',
-          name: '_value',
-          internalType: 'bytes'
-        }
-      ],
-      name: 'getData',
-      inputs: [
-        {
-          type: 'bytes32',
-          name: '_key',
-          internalType: 'bytes32'
-        }
-      ]
-    }
-  ]
-  const Contract = new web3.eth.Contract(abi, address)
-  let data
-  try {
-    data = await Contract.methods.getData(key).call()
-  } catch (err: any) {
-    console.log(err.message)
-  }
+// const getDataLegacy = async (address: string, web3: Web3, key: string) => {
+//   const abi: AbiItem[] = [
+//     {
+//       type: 'function',
+//       stateMutability: 'view',
+//       outputs: [
+//         {
+//           type: 'bytes',
+//           name: '_value',
+//           internalType: 'bytes'
+//         }
+//       ],
+//       name: 'getData',
+//       inputs: [
+//         {
+//           type: 'bytes32',
+//           name: '_key',
+//           internalType: 'bytes32'
+//         }
+//       ]
+//     }
+//   ]
+//   const Contract = new web3.eth.Contract(abi, address)
+//   let data
+//   try {
+//     data = await Contract.methods.getData(key).call()
+//   } catch (err: any) {
+//     console.log(err.message)
+//   }
 
-  return data
-}
+//   return data
+// }
 
 const getAllDataKeys = async (address: string, web3: Web3): Promise<string[]> => {
   const abi: AbiItem[] = [
@@ -209,7 +201,6 @@ export const getAddressesWithPermissions = async (profileAddress: string, web3: 
   const permissionKey = ADDRESSES.PERMISSIONS
   const permissionKeys = getKeys.filter((key) => key.indexOf(permissionKey) !== -1)
   const addressesWithPermissions = permissionKeys.map((key) => key.replace(permissionKey, '0x'))
-  debugger
 
   return addressesWithPermissions
 }
