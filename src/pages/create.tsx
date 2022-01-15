@@ -1,4 +1,7 @@
-import { Button, TextArea, TextInput, useToast } from '@apideck/components'
+import Button from 'components/Button'
+import TextInput from 'components/TextInput'
+import TextArea from 'components/TextArea'
+import { useToast } from 'utils/useToast'
 import { deployUniversalProfile, fetchUniversalProfile } from 'utils/lukso'
 import { shortenAddress, useWeb3 } from 'utils/web3'
 

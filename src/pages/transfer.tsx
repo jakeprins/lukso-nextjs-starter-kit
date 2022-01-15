@@ -1,12 +1,13 @@
-import { Button, TextInput, useToast } from '@apideck/components'
+import Button from 'components/Button'
+import TextInput from 'components/TextInput'
+import Layout from 'components/Layout'
+import Navbar from 'components/Navbar'
+import { useToast } from 'utils/useToast'
 import { hasPermission, transferLXY } from 'utils/lukso'
+import { fetchERC725Data } from 'utils/lukso/profile'
 import { getAccountBalance, shortenAddress, useWeb3 } from 'utils/web3'
 
-import Layout from '../components/Layout'
-import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
-
-import { fetchERC725Data } from 'utils/lukso/profile'
 import { useState } from 'react'
 
 const TransferPage: NextPage = () => {

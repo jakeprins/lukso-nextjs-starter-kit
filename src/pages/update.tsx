@@ -1,11 +1,13 @@
-import { Button, TextArea, TextInput, useToast } from '@apideck/components'
+import Button from 'components/Button'
+import TextInput from 'components/TextInput'
+import TextArea from 'components/TextArea'
+import Layout from 'components/Layout'
+import Navbar from 'components/Navbar'
+import { useToast } from 'utils/useToast'
 import { fetchUniversalProfile, hasPermission, updateUniversalProfile } from 'utils/lukso'
 import { shortenAddress, useWeb3 } from 'utils/web3'
 
-import Layout from '../components/Layout'
-import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
-
 import { useState } from 'react'
 
 const UpdateProfilePage: NextPage = () => {

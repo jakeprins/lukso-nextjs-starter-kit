@@ -1,7 +1,8 @@
-import { Button, TextInput, useToast } from '@apideck/components'
 import { shortenAddress, useWeb3 } from 'utils/web3'
-
-import Layout from '../components/Layout'
+import Button from 'components/Button'
+import TextInput from 'components/TextInput'
+import { useToast } from 'utils/useToast'
+import Layout from 'components/Layout'
 import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
 import ProfileCard from 'components/ProfileCard'

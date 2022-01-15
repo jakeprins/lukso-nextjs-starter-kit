@@ -1,4 +1,4 @@
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
 
