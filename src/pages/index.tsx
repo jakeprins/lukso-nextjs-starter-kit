@@ -1,6 +1,6 @@
+import Layout from '../components/Layout'
 import Navbar from 'components/Navbar'
 import { NextPage } from 'next'
-import Layout from '../components/Layout'
 
 const IndexPage: NextPage = () => (
   <Layout title="Home | Lukso Starter Kit">
@@ -15,7 +15,7 @@ const IndexPage: NextPage = () => (
           <div className="mt-2">
             <p className="text-gray-500">
               Welcome to the{' '}
-              <a className="font-semibold hover:text-indigo-500" href="https://www.lukso.network">
+              <a className="font-semibold hover:text-primary-500" href="https://www.lukso.network">
                 Lukso
               </a>{' '}
               boilerplate for building React DApps with Next.js, TypeScript, and Tailwind CSS.

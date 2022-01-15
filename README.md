@@ -1,4 +1,4 @@
-# Lukso Nextjs Starter Kit
+# Lukso Next.js Starter Kit
 
 <img alt="Logo" align="right" src="./public/img/logo.png" width="10%" />
 
@@ -61,7 +61,7 @@ Inside the newly created project, you can run some commands:
 Runs `next dev` which starts the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-<img alt="Screenshot" src="./public/img/screenshot.jpg" />
+<img alt="Screenshot" src="./public/img/screenshot.png" />
 
 #### `yarn build`
 

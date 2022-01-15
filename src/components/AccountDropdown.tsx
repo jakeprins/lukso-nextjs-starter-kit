@@ -50,7 +50,7 @@ export default function AccountDropdown() {
                   className="w-8 h-8 mr-2 rounded-md"
                 />
                 <div className="flex flex-col">
-                  <p className="mr-2 text-sm text-gray-500">Signed in as</p>
+                  <p className="mr-2 text-sm text-gray-500">Signed in with EOA:</p>
 
                   <span
                     className="text-sm font-medium truncate cursor-pointer hover:text-gray-900"
