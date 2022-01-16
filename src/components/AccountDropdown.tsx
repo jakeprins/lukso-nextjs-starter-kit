@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react'
 
 import Blockies from 'react-blockies'
-import { Button } from 'components/Button'
+import Button from 'components/Button'
 import { FiCopy } from 'react-icons/fi'
 import { Fragment } from 'react'
 import { HiChevronDown } from 'react-icons/hi'
